@@ -1,0 +1,133 @@
+.diagram-toggle {
+  margin-top: 18px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  padding: 8px 11px;
+  color: var(--ink);
+  font: 500 10px var(--mono);
+}
+
+.diagram-toggle:hover {
+  background: var(--ink);
+  color: #fff;
+}
+
+.diagram {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows .28s ease, opacity .2s ease;
+}
+
+.diagram > * {
+  overflow: hidden;
+}
+
+.project:hover .diagram,
+.project:focus-within .diagram,
+.project.diagram-open .diagram {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.diagram-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px dashed #9eb1aa;
+  color: var(--muted);
+  font: 500 10px var(--mono);
+}
+
+.diagram-head strong {
+  color: var(--teal);
+  font-weight: 500;
+}
+
+.diagram-flow {
+  display: grid;
+  grid-template-columns: 1fr 42px 1fr 42px 1fr;
+  align-items: center;
+  margin-top: 14px;
+  background: var(--ink);
+  padding: 17px;
+}
+
+.diagram-flow > div {
+  display: flex;
+  min-height: 76px;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #edf4ef;
+  padding: 11px;
+  color: var(--ink);
+}
+
+.diagram-flow small {
+  color: var(--teal);
+  font: 500 10px var(--mono);
+}
+
+.diagram-flow span {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.diagram-flow i {
+  position: relative;
+  height: 1px;
+  background: #9ecbc1;
+}
+
+.diagram-flow i::after {
+  position: absolute;
+  top: -3px;
+  right: 0;
+  border-width: 3px 0 3px 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent #9ecbc1;
+  content: '';
+}
+
+@media (max-width: 760px) {
+  .project:hover .diagram {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+
+  .project.diagram-open .diagram {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 460px) {
+  .diagram-flow {
+    grid-template-columns: 1fr;
+    gap: 7px;
+    padding: 13px;
+  }
+
+  .diagram-flow i {
+    width: 1px;
+    height: 15px;
+    justify-self: center;
+  }
+
+  .diagram-flow i::after {
+    top: auto;
+    right: -2px;
+    bottom: 0;
+    border-width: 5px 3px 0;
+    border-color: #9ecbc1 transparent transparent;
+  }
+}
+
+@media print {
+  .diagram-toggle,
+  .diagram {
+    display: none;
+  }
+}
