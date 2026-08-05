@@ -46,23 +46,84 @@
   font-weight: 500;
 }
 
+.diagram-note {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.architecture-table {
+  margin-top: 14px;
+  border: 1px solid var(--line);
+}
+
+.architecture-row {
+  display: grid;
+  grid-template-columns: minmax(120px, .32fr) 1fr;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.architecture-row:first-child {
+  border-top: 0;
+}
+
+.architecture-row > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px 12px;
+}
+
+.architecture-row > span + span {
+  border-left: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.architecture-labels {
+  background: var(--mint);
+  color: var(--teal);
+  font: 500 10px var(--mono);
+}
+
+.architecture-labels > span + span {
+  color: var(--teal);
+}
+
+.flow-title {
+  margin-top: 22px;
+  color: var(--teal);
+  font: 500 10px var(--mono);
+}
+
 .diagram-flow {
   display: grid;
-  grid-template-columns: 1fr 42px 1fr 42px 1fr;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
   align-items: center;
   margin-top: 14px;
   background: var(--ink);
-  padding: 17px;
+  padding: 1px;
 }
 
-.diagram-flow > div {
+.flow-step {
   display: flex;
-  min-height: 76px;
+  min-height: 92px;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 14px;
   background: #edf4ef;
   padding: 11px;
   color: var(--ink);
+}
+
+.flow-step > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--teal);
 }
 
 .diagram-flow small {
@@ -73,22 +134,6 @@
 .diagram-flow span {
   font-size: 13px;
   font-weight: 700;
-}
-
-.diagram-flow i {
-  position: relative;
-  height: 1px;
-  background: #9ecbc1;
-}
-
-.diagram-flow i::after {
-  position: absolute;
-  top: -3px;
-  right: 0;
-  border-width: 3px 0 3px 5px;
-  border-style: solid;
-  border-color: transparent transparent transparent #9ecbc1;
-  content: '';
 }
 
 @media (max-width: 760px) {
@@ -106,22 +151,15 @@
 @media (max-width: 460px) {
   .diagram-flow {
     grid-template-columns: 1fr;
-    gap: 7px;
-    padding: 13px;
   }
 
-  .diagram-flow i {
-    width: 1px;
-    height: 15px;
-    justify-self: center;
+  .architecture-row {
+    grid-template-columns: 1fr;
   }
 
-  .diagram-flow i::after {
-    top: auto;
-    right: -2px;
-    bottom: 0;
-    border-width: 5px 3px 0;
-    border-color: #9ecbc1 transparent transparent;
+  .architecture-row > span + span {
+    border-top: 1px solid var(--line);
+    border-left: 0;
   }
 }
 
