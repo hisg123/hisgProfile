@@ -53,87 +53,92 @@
   line-height: 1.65;
 }
 
-.architecture-table {
-  margin-top: 14px;
-  border: 1px solid var(--line);
-}
-
-.architecture-row {
+.diagram-domains {
   display: grid;
-  grid-template-columns: minmax(120px, .32fr) 1fr;
-  border-top: 1px solid var(--line);
-  font-size: 12px;
-  line-height: 1.45;
-}
-
-.architecture-row:first-child {
-  border-top: 0;
-}
-
-.architecture-row > span {
-  display: flex;
+  grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr) 42px minmax(0, 1fr);
   align-items: center;
-  gap: 8px;
-  min-width: 0;
-  padding: 10px 12px;
+  margin-top: 18px;
 }
 
-.architecture-row > span + span {
-  border-left: 1px solid var(--line);
-  color: var(--muted);
-}
-
-.architecture-labels {
-  background: var(--mint);
-  color: var(--teal);
-  font: 500 10px var(--mono);
-}
-
-.architecture-labels > span + span {
-  color: var(--teal);
-}
-
-.flow-title {
-  margin-top: 22px;
-  color: var(--teal);
-  font: 500 10px var(--mono);
-}
-
-.diagram-flow {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  align-items: center;
-  margin-top: 14px;
-  background: var(--ink);
-  padding: 1px;
-}
-
-.flow-step {
+.diagram-domain {
   display: flex;
-  min-height: 92px;
+  min-height: 250px;
   flex-direction: column;
-  gap: 14px;
-  background: #edf4ef;
-  padding: 11px;
+  padding: 16px;
+  border: 1px dashed #9eb1aa;
   color: var(--ink);
 }
 
-.flow-step > div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: var(--teal);
-}
-
-.diagram-flow small {
+.diagram-domain h4 {
+  margin: 0;
   color: var(--teal);
   font: 500 10px var(--mono);
 }
 
-.diagram-flow span {
-  font-size: 13px;
-  font-weight: 700;
+.domain-nodes {
+  display: grid;
+  align-content: center;
+  flex: 1;
+  gap: 12px;
+  padding: 16px 0;
+}
+
+.diagram-node {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 11px;
+  background: #edf4ef;
+  border-left: 3px solid var(--teal);
+}
+
+.node-icon {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  place-items: center;
+  color: var(--teal);
+}
+
+.diagram-node > div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.diagram-node strong {
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.diagram-node small {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.domain-connector {
+  position: relative;
+  display: grid;
+  place-items: center;
+  color: var(--teal);
+}
+
+.domain-connector::before {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: #9eb1aa;
+  content: '';
+}
+
+.domain-connector svg {
+  position: relative;
+  z-index: 1;
+  padding: 2px;
+  background: var(--paper);
 }
 
 @media (max-width: 760px) {
@@ -149,17 +154,26 @@
 }
 
 @media (max-width: 460px) {
-  .diagram-flow {
+  .diagram-domains {
     grid-template-columns: 1fr;
+    gap: 13px;
   }
 
-  .architecture-row {
-    grid-template-columns: 1fr;
+  .diagram-domain {
+    min-height: 0;
   }
 
-  .architecture-row > span + span {
-    border-top: 1px solid var(--line);
-    border-left: 0;
+  .domain-connector {
+    height: 22px;
+  }
+
+  .domain-connector::before {
+    width: 1px;
+    height: 100%;
+  }
+
+  .domain-connector svg {
+    transform: rotate(90deg);
   }
 }
 
