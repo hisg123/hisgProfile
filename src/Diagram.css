@@ -1,33 +1,10 @@
-.diagram-toggle {
-  margin-top: 18px;
-  border: 1px solid var(--ink);
-  background: transparent;
-  padding: 8px 11px;
-  color: var(--ink);
-  font: 500 10px var(--mono);
-}
-
-.diagram-toggle:hover {
-  background: var(--ink);
-  color: #fff;
-}
-
 .diagram {
   display: grid;
-  grid-template-rows: 0fr;
-  opacity: 0;
-  transition: grid-template-rows .28s ease, opacity .2s ease;
+  grid-template-rows: 1fr;
 }
 
 .diagram > * {
   overflow: hidden;
-}
-
-.project:hover .diagram,
-.project:focus-within .diagram,
-.project.diagram-open .diagram {
-  grid-template-rows: 1fr;
-  opacity: 1;
 }
 
 .diagram-head {
@@ -141,18 +118,6 @@
   background: var(--paper);
 }
 
-@media (max-width: 760px) {
-  .project:hover .diagram {
-    grid-template-rows: 0fr;
-    opacity: 0;
-  }
-
-  .project.diagram-open .diagram {
-    grid-template-rows: 1fr;
-    opacity: 1;
-  }
-}
-
 @media (max-width: 460px) {
   .diagram-domains {
     grid-template-columns: 1fr;
@@ -177,9 +142,3 @@
   }
 }
 
-@media print {
-  .diagram-toggle,
-  .diagram {
-    display: none;
-  }
-}
