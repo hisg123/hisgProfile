@@ -1,0 +1,48 @@
+import { Fragment, useEffect, useState } from 'react'
+import { ArrowDown, ArrowRight, BrainCircuit, Database, FileCog, FileText, GitBranch, Globe2, Image, LockKeyhole, Mail, Menu, Network, Search, Server, ShieldCheck, UserRound, X } from 'lucide-react'
+import { portfolio } from './portfolioData'
+import { portfolioEnhancements } from './portfolioEnhancements'
+import { architectures } from './architectures'
+
+function Heading({ index, title, lead }) {
+  return <div className="heading"><span>{index}</span><div><h2>{title}</h2>{lead && <p>{lead}</p>}</div></div>
+}
+
+function Tags({ tags }) {
+  return <ul className="tags">{tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>
+}
+
+const icons = { user: UserRound, auth: LockKeyhole, server: Server, database: Database, network: Network, git: GitBranch, chart: FileCog, document: FileText, search: Search, vision: Image, ai: BrainCircuit, shield: ShieldCheck }
+
+function Impact({ content }) {
+  return <section className="impact" id="impact"><Heading index="03" title={content.title} lead={content.lead}/><div className="impact-grid">{content.items.map(([metric, title, detail]) => <article key={title}><p className="impact-metric">{metric}</p><h3>{title}</h3><p>{detail}</p></article>)}</div></section>
+}
+
+function Project({ item, number, highlight }) {
+  const [title, subtitle, period, tags, description, work, outcome] = item
+  const [diagramOpen, setDiagramOpen] = useState(false)
+  const language = /[가-힣]/.test(subtitle) ? 'ko' : 'en'
+  const labels = language === 'ko' ? { preview: '아키텍처 보기', close: '아키텍처 닫기', architecture: '시스템 아키텍처', impact: '성과 포인트' } : { preview: 'View architecture', close: 'Close architecture', architecture: 'System architecture', impact: 'Impact highlight' }
+  const architecture = architectures[language][number - 1]
+  return <article className={`project ${diagramOpen ? 'diagram-open' : ''}`}><span className="project-number">{String(number).padStart(2, '0')}</span><div><div className="project-top"><div><p>{subtitle}</p><h3>{title}</h3></div><time>{period}</time></div><p className="description">{description}</p><Tags tags={tags}/><ul className="work-list">{work.map((entry) => <li key={entry}>{entry}</li>)}</ul><aside className="project-highlight"><span>{labels.impact}</span><p>{highlight}</p></aside><p className="outcome">{outcome}</p><button className="diagram-toggle" onClick={() => setDiagramOpen(!diagramOpen)} aria-expanded={diagramOpen}>{diagramOpen ? labels.close : labels.preview}</button><div className="diagram" aria-label={`${title} architecture`}><div className="diagram-head"><span>{labels.architecture}</span><strong>{title}</strong></div><p className="diagram-note">{architecture.note}</p><div className="diagram-domains">{architecture.domains.map(([domain, nodes], index) => <Fragment key={domain}><section className="diagram-domain"><h4>{domain}</h4><div className="domain-nodes">{nodes.map(([name, detail, icon]) => { const Icon = icons[icon]; return <div className="diagram-node" key={name}><span className="node-icon"><Icon size={24} aria-hidden="true"/></span><div><strong>{name}</strong><small>{detail}</small></div></div> })}</div></section>{index < architecture.domains.length - 1 && <div className="domain-connector" aria-hidden="true"><ArrowRight size={20}/></div>}</Fragment>)}</div></div></div></article>
+}
+
+export default function EnhancedApp() {
+  const [language, setLanguage] = useState(() => localStorage.getItem('portfolio-language') || 'ko')
+  const [menuOpen, setMenuOpen] = useState(false)
+  const content = portfolio[language]
+  const enhancement = portfolioEnhancements[language]
+
+  useEffect(() => {
+    localStorage.setItem('portfolio-language', language)
+    document.documentElement.lang = language
+    document.title = language === 'ko' ? '홍인기 | IT Application Owner' : 'Hong Inki | IT Application Owner'
+  }, [language])
+
+  const chooseLanguage = (code) => {
+    setLanguage(code)
+    setMenuOpen(false)
+  }
+
+  return <div className="shell"><header className="topbar"><a className="wordmark" href="#top">HI<span>.</span></a><button className="menu" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}>{menuOpen ? <X/> : <Menu/>}</button><nav className={menuOpen ? 'open' : ''}>{Object.entries(content.navigation).map(([key, label]) => <a href={`#${key}`} key={key} onClick={() => setMenuOpen(false)}>{label}</a>)}<a href="#impact" onClick={() => setMenuOpen(false)}>{enhancement.impact.navLabel}</a><div className="language" aria-label="Language"><Globe2 size={15}/>{['ko', 'en'].map((code) => <button key={code} className={language === code ? 'active' : ''} onClick={() => chooseLanguage(code)}>{code.toUpperCase()}</button>)}</div></nav></header><main id="top"><section className="hero" id="profile"><div><p className="eyebrow">{content.eyebrow}</p><h1>Hong<br/><em>Inki.</em></h1><p className="role">{content.role}</p><p className="intro">{content.intro}</p><a className="discover" href="#impact">{enhancement.impact.navLabel}<ArrowDown size={18}/></a></div><div className="portrait-wrap"><i/><img className="portrait" src={`${import.meta.env.BASE_URL}profile-photo.jpg`} alt="Hong Inki"/><p className="availability"><b/>{content.availability}</p></div></section><section className="profile"><div><Heading index="01" title={content.profileTitle}/><p className="profile-text">{content.profileText}</p></div><dl className="facts">{content.facts.map(([term, value]) => <div key={term}><dt>{term}</dt><dd>{value}</dd></div>)}</dl></section><section className="competencies" id="expertise"><Heading index="02" title={content.competenciesTitle}/><div className="competency-grid">{content.competencies.map(([title, text], index) => <article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}</div></section><Impact content={enhancement.impact}/><section className="projects" id="projects"><Heading index="04" title={content.projectsTitle} lead={content.projectsLead}/><div className="project-list">{content.projects.map((item, index) => <Project key={item[0]} item={item} number={index + 1} highlight={enhancement.projectHighlights[index]}/>)}</div></section></main><footer id="contact"><p className="footer-label">LET&apos;S BUILD WHAT LASTS.</p><p className="closing">{content.closing}</p><div className="contact"><span>{content.contactLabel}</span><a href="mailto:hisg1201@naver.com"><Mail size={17}/>hisg1201@naver.com</a><a href="tel:01056572300">010-5657-2300</a></div><small>&copy; {new Date().getFullYear()} Hong Inki</small></footer></div>
+}
